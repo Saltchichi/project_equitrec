@@ -1,0 +1,5 @@
+equitrec/package.json
+equitrec/platforms/android/android.json
+equitrec/platforms/android/app/src/main/AndroidManifest.xml
+equitrec/platforms/android/app/src/main/res/values/strings.xml
+equitrec/platforms/android/app/src/main/res/xml/config.xml
