@@ -1,4 +1,8 @@
 equitrec/package.json
+equitrec/hooks
+equitrec/node_modules
+equitrec/platforms
+equitrec/plugins
 equitrec/platforms/android/android.json
 equitrec/platforms/android/app/src/main/AndroidManifest.xml
 equitrec/platforms/android/app/src/main/res/values/strings.xml
