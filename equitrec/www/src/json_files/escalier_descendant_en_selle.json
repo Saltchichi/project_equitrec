@@ -1,0 +1,56 @@
+{
+    "epreuve": [
+        {   
+            "nomEpreuve": "Escalier Descendant en Selle ",
+            "nomJuge": "",
+            "numDispositif": "",
+            "tailleTableau" : [
+                {
+                    "colonne" : 19,
+                    "ligne" : 25
+                }
+            ],
+            "nomCategorie" : [
+                "amateur 2",
+                "amateur 1 ",
+                "elite "    
+            ],
+            "contrat": [
+                {
+                    "realise" : 7,
+                    "uneFaute" : 4,
+                    "deuxFautes" : 1,
+                    "troisFautes" : 0,
+                    "totalContrat" : ""
+                }
+            ],
+            "style": [
+                {
+                    "tresBon" : "+3",
+                    "bon" : "2",
+                    "moyen" : "1",
+                    "passable" : "0",
+                    "mediocre" : "-1",
+                    "mauvais" : "-2",
+                    "totalStyle" : ""
+                }
+            ],
+            "penalites": [
+                {
+                    "piedSortiDuCouloir" : "-10",
+                    "brutalite" : "-10",
+                    "franchissementDangereux" : "-10",
+                    "totalPenalites" : ""
+                }
+            ],
+            "totalFinal": "",
+            "observation" : "",
+            "penalitesPTV" : [
+                {
+                    "chute" : "Note 0 sur le PTV et arrêt du concurrent ",
+                    "erreurParcoursNonRectifiée" : "Note 0 sur le PTV "
+                }
+            ]
+        }
+    ]
+}
