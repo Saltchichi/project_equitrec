@@ -1,0 +1,53 @@
+{
+    "epreuve": [
+        {   
+            "nomEpreuve": "Slalom à une main  ",
+            "nomJuge": "",
+            "numDispositif": "",
+            "tailleTableau" : [
+                {
+                    "colonne" : 19,
+                    "ligne" : 23
+                }
+            ],
+            "nomCategorie" : [
+                "amateur 1",
+                "amateur elite "
+            ],
+            "contrat": [
+                {
+                    "realise" : 7,
+                    "uneFaute" : 4,
+                    "deuxFautes" : 1,
+                    "troisFautes" : 0,
+                    "totalContrat" : ""
+                }
+            ],
+            "allures": [
+                {
+                    "galot" : "+3",
+                    "trot" : "-2",
+                    "totalAllures" : ""
+                }
+            ],
+            "penalites": [
+                {
+                    "porteManque" : "-10",
+                    "piedSortiDuCouloir" : "-10",
+                    "repriseDesRenesDeuxMain" : "-10",
+                    "brutalite" : "-10",
+                    "franchissementDangereux" : "-10",
+                    "totalPenalites" : ""
+                }
+            ],
+            "totalFinal": "",
+            "observation" : "",
+            "penalitesPTV" : [
+                {
+                    "chute" : "Note 0 sur le PTV et arrêt du concurrent ",
+                    "erreurParcoursNonRectifiée" : "Note 0 sur le PTV "
+                }
+            ]
+        }
+    ]
+}

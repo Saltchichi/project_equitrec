@@ -1,0 +1,53 @@
+{
+    "epreuve": [
+        {   
+            "nomEpreuve": "Branche basses en main",
+            "nomJuge": "",
+            "numDispositif": "",
+            "tailleTableau" : [
+                {
+                    "colonne" : 19,
+                    "ligne" : 22
+                }
+            ],
+            "nomCategorie" : [
+                "club poney",
+                "club",
+                "amateur"    
+            ],
+            "contrat": [
+                {
+                    "realise" : 7,
+                    "uneFaute" : 4,
+                    "deuxFautes" : 1,
+                    "troisFautes" : 0,
+                    "totalContrat" : ""
+                }
+            ],
+            "allures": [
+                {
+                    "trot" : "+3",
+                    "pas" : "-2",
+                    "totalAllures" : ""
+                }
+            ],
+            "penalites": [
+                {
+                    "porteManquee" : "-10",
+                    "etrierBattant" : "-1",
+                    "brutalite" : "-10",
+                    "franchissementDangereux" : "-10",
+                    "totalPenalites" : ""
+                }
+            ],
+            "totalFinal": "",
+            "observation" : "",
+            "penalitesPTV" : [
+                {
+                    "chute" : "Note 0 sur le PTV et arrêt du concurrent ",
+                    "erreurParcoursNonRectifiée" : "Note 0 sur le PTV "
+                }
+            ]
+        }
+    ]
+}
