@@ -24,19 +24,25 @@
 <script>
 import router from "../router";
 import EventBus from "./EventBus.vue";
+import Home from "./Home.vue";
 import axios from "axios";
 
 export default {
+  name: "Login",
   data() {
     return {
       email: "",
       password: "",
     };
   },
+   components: {
+    Home: Home,
+  },
   methods: {
     login() {
       debugger;
       const mockUser = {
+        id: 1,
         email: "user@gmail.com",
         password: "user",
       };
@@ -57,6 +63,7 @@ export default {
     emitMethod() {
       EventBus.$emit("logged-in", "loggedin");
     },
+
   },
 };
 </script>
