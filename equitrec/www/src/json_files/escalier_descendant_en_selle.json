@@ -1,56 +1,35 @@
 {
-    "epreuve": [
-        {   
-            "nomEpreuve": "Escalier Descendant en Selle ",
-            "nomJuge": "",
-            "numDispositif": "",
-            "tailleTableau" : [
-                {
-                    "colonne" : 19,
-                    "ligne" : 25
-                }
-            ],
-            "nomCategorie" : [
-                "amateur 2",
-                "amateur 1 ",
-                "elite "    
-            ],
-            "contrat": [
-                {
-                    "realise" : 7,
-                    "uneFaute" : 4,
-                    "deuxFautes" : 1,
-                    "troisFautes" : 0,
-                    "totalContrat" : ""
-                }
-            ],
-            "style": [
-                {
-                    "tresBon" : "+3",
-                    "bon" : "2",
-                    "moyen" : "1",
-                    "passable" : "0",
-                    "mediocre" : "-1",
-                    "mauvais" : "-2",
-                    "totalStyle" : ""
-                }
-            ],
-            "penalites": [
-                {
-                    "piedSortiDuCouloir" : "-10",
-                    "brutalite" : "-10",
-                    "franchissementDangereux" : "-10",
-                    "totalPenalites" : ""
-                }
-            ],
-            "totalFinal": "",
-            "observation" : "",
-            "penalitesPTV" : [
-                {
-                    "chute" : "Note 0 sur le PTV et arrêt du concurrent ",
-                    "erreurParcoursNonRectifiée" : "Note 0 sur le PTV "
-                }
-            ]
-        }
-    ]
+  "notations": {
+    "Contrat": {
+      "realise": 7,
+      "1 faute": 4,
+      "2 fautes": 1,
+      "3 fautes": 0,
+      "Total P": ""
+    },
+    "Style": {
+      "Tres bon": "+3",
+      "Bon": "2",
+      "Moyen": "1",
+      "Passable": "0",
+      "Mediocre": "-1",
+      "Mauvais": "-2",
+      "Total S ": ""
+    },
+    "Penalites": {
+      "Pied sorti du couloir": -10,
+      "Brutalité": -10,
+      "Franchissement dangereux": -10,
+      "Total P": ""
+    },
+    "resultat": {
+      "Total": "C + S + P"
+    },
+    "others": {
+      "Observation": "",
+      "PENALITES PTV": "",
+      "Chute": "Note 0 sur le PTV et arrêt du concurrent",
+      "Erreur de parcours non rectifiée": "Note 0 sur le PTV"
+    }
+  }
 }
