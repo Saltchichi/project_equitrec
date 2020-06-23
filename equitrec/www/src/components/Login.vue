@@ -24,19 +24,36 @@
 <script>
 import router from "../router";
 import EventBus from "./EventBus.vue";
+import Competition from "./Competition.vue";
 import axios from "axios";
 
 export default {
+  name: "Login",
   data() {
     return {
       email: "",
       password: "",
+      utilisateursBDD: [],
+      roleBDD: [],
+      competitionBDD: [],
+      epreuveBDD: [],
+      competiteurBDD: [],
     };
+  },
+  components: {
+    Competition: Competition,
+  },
+  created: function() {
+    this.getUtilisateurs();
+    this.getRoles();
+    this.getCompetitions();
+    this.getEpreuves();
+    this.getCompetiteurs();
   },
   methods: {
     login() {
-      debugger;
       const mockUser = {
+        id: 1,
         email: "user@gmail.com",
         password: "user",
       };
@@ -45,7 +62,7 @@ export default {
           this.email == mockUser.email &&
           this.password == mockUser.password
         ) {
-          router.push({ name: "Home" });
+          router.push({ name: "Competition" });
           this.emitMethod();
         } else {
           alert("The email and/or password is incorrect");
@@ -53,6 +70,36 @@ export default {
       } else {
         alert("Please fill email/password");
       }
+    },
+    getUtilisateurs() {
+      axios.get("http://localhost/api_equitrec/utilisateur").then(response => {
+        this.utilisateursBDD = response.data;
+        console.log(this.utilisateursBDD);
+      });
+    },
+    getRoles() {
+      axios.get("http://localhost/api_equitrec/role").then(response => {
+        this.roleBDD = response.data;
+        console.log(this.roleBDD);
+      });
+    },
+    getCompetitions() {
+      axios.get("http://localhost/api_equitrec/competition").then(response => {
+        this.competitionBDD = response.data;
+        console.log(this.competitionBDD);
+      });
+    },
+    getEpreuves() {
+      axios.get("http://localhost/api_equitrec/epreuve").then(response => {
+        this.epreuveBDD = response.data;
+        console.log(this.epreuveBDD);
+      });
+    },
+    getCompetiteurs() {
+      axios.get("http://localhost/api_equitrec/competiteur").then(response => {
+        this.competiteurBDD = response.data;
+        console.log(this.competiteurBDD);
+      });
     },
     emitMethod() {
       EventBus.$emit("logged-in", "loggedin");

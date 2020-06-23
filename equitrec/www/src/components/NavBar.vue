@@ -1,13 +1,7 @@
 <template>
-  <nav class="navbar navbar-expand-lg navbar-dark bg-dark rounded">
-    <ul class="navbar-nav">
-      <li v-if="auth=='loggedin'" class="nav-item">
-        <router-link class="nav-link" to=/home>Home</router-link>
-      </li>
-      <li v-if="auth=='loggedin'" class="nav-item">
-        <a class="nav-link" href="">Logout</a>
-      </li>
-    </ul>
+  <nav class="navbar navbar-dark bg-dark">
+    <router-link class="linker" v-if="auth=='loggedin'" to=/competition>Home</router-link>
+    <a class="linker" v-if="auth=='loggedin'" href="">Logout</a>
   </nav>
 </template>
 <script>
@@ -32,4 +26,8 @@ export default {
   }
 };
 </script>
-<style scoped></style>
+<style scoped>
+.linker {
+  color: white;
+}
+</style>

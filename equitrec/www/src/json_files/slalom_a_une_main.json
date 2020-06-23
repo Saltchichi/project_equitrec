@@ -1,53 +1,33 @@
 {
-    "epreuve": [
-        {   
-            "nomEpreuve": "Slalom à une main  ",
-            "nomJuge": "",
-            "numDispositif": "",
-            "tailleTableau" : [
-                {
-                    "colonne" : 19,
-                    "ligne" : 23
-                }
-            ],
-            "nomCategorie" : [
-                "amateur 1",
-                "amateur elite "
-            ],
-            "contrat": [
-                {
-                    "realise" : 7,
-                    "uneFaute" : 4,
-                    "deuxFautes" : 1,
-                    "troisFautes" : 0,
-                    "totalContrat" : ""
-                }
-            ],
-            "allures": [
-                {
-                    "galot" : "+3",
-                    "trot" : "-2",
-                    "totalAllures" : ""
-                }
-            ],
-            "penalites": [
-                {
-                    "porteManque" : "-10",
-                    "piedSortiDuCouloir" : "-10",
-                    "repriseDesRenesDeuxMain" : "-10",
-                    "brutalite" : "-10",
-                    "franchissementDangereux" : "-10",
-                    "totalPenalites" : ""
-                }
-            ],
-            "totalFinal": "",
-            "observation" : "",
-            "penalitesPTV" : [
-                {
-                    "chute" : "Note 0 sur le PTV et arrêt du concurrent ",
-                    "erreurParcoursNonRectifiée" : "Note 0 sur le PTV "
-                }
-            ]
-        }
-    ]
+  "epreuve": {
+    "Contrat": {
+        "Réalisé": 7,
+        "1 faute": 4,
+        "2 fautes": 1,
+        "3 fautes": 0,
+        "Total C": ""
+      },
+    "Allures": {
+      "Galot": "+3",
+      "Trot": -2,
+      "Total A": ""
+    },
+    "Pénalités": {
+      "Porte manqué": "-10",
+      "Pied sorti du couloir": "-10",
+      "Reprise des renes 2 mains": "-10",
+      "Brutalité": "-10",
+      "Franchissement dangereux": "-10",
+      "Total P": ""
+    },
+    "resultat": {
+        "Total": "C + A + P"
+      },
+      "others": {
+        "Observation": "",
+        "PENALITES PTV": "",
+        "Chute": "Note 0 sur le PTV et arrêt du concurrent",
+        "Erreur de parcours non rectifiée": "Note 0 sur le PTV"
+      }
+  }
 }
