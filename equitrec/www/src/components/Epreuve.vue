@@ -3,7 +3,7 @@
     <div class="container" style="margin-top: 50px;">
       <ul v-if="competitions.id === epreuves[0].competitionId">
         <div v-for="epreuve in epreuves" :key="epreuve.nom">
-          <form v-on:submit="notation">
+          <form v-on:submit.prevent="notation(epreuve.nom)">
             <button type="submit" class="btn btn-primary btn-lg btn-block">{{ epreuve.nom }}</button>
             <br />
           </form>
@@ -60,7 +60,7 @@ export default {
     Notation: Notation,
   },
   methods: {
-    notation() {
+    notation(nom) {
       router.push({ name: "Notation" });
     },
   },

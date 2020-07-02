@@ -1,4 +1,5 @@
 {
+  "epreuve_nom": "Epreuves amateur 1 et Amateur Elite",
   "notations": {
     "Contrat": {
       "realise": 7,
@@ -21,15 +22,9 @@
       "Brutalité": -10,
       "Franchissement dangereux": -10,
       "Total P": ""
-    },
-    "resultat": {
-      "Total": "C + S + P"
-    },
-    "others": {
-      "Observation": "",
-      "PENALITES PTV": "",
-      "Chute": "Note 0 sur le PTV et arrêt du concurrent",
-      "Erreur de parcours non rectifiée": "Note 0 sur le PTV"
     }
-  }
+  },
+  "Total": "C + S + P",
+  "Chute": "Note 0 sur le PTV et arrêt du concurrent",
+  "Erreur_de_parcours": "Note 0 sur le PTV"
 }

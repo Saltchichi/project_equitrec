@@ -34,11 +34,6 @@ export default {
       isError: true,
     };
   },
-  mounted() {
-    EventBus.$on("message", status => {
-      this.message = status;
-    });
-  },
   components: {
     Login: Login,
     Epreuve: Epreuve,

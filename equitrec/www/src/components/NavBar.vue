@@ -6,18 +6,12 @@
 </template>
 <script>
 import EventBus from "./EventBus.vue"
-
-EventBus.$on('logged-in', test => {
-  console.log(test)
-})
 export default {
   name: 'NavBar',
   data() {
     return {
       auth: '',
     }
-  },
-  methods: {
   },
   mounted() {
     EventBus.$on('logged-in', status => {

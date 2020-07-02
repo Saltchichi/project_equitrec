@@ -148,6 +148,7 @@ public class SystemWebViewEngine implements CordovaWebViewEngine {
         webView.setVerticalScrollBarEnabled(false);
         // Enable JavaScript
         final WebSettings settings = webView.getSettings();
+        settings.setMixedContentMode(WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);
         settings.setJavaScriptEnabled(true);
         settings.setJavaScriptCanOpenWindowsAutomatically(true);
         settings.setLayoutAlgorithm(LayoutAlgorithm.NORMAL);
