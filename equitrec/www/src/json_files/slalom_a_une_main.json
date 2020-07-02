@@ -1,12 +1,13 @@
 {
+  "epreuve_nom": "Epreuves amateur 1 et Amateur Elite",
   "epreuve": {
     "Contrat": {
-        "Réalisé": 7,
-        "1 faute": 4,
-        "2 fautes": 1,
-        "3 fautes": 0,
-        "Total C": ""
-      },
+      "Réalisé": 7,
+      "1 faute": 4,
+      "2 fautes": 1,
+      "3 fautes": 0,
+      "Total C": ""
+    },
     "Allures": {
       "Galot": "+3",
       "Trot": -2,
@@ -19,15 +20,9 @@
       "Brutalité": "-10",
       "Franchissement dangereux": "-10",
       "Total P": ""
-    },
-    "resultat": {
-        "Total": "C + A + P"
-      },
-      "others": {
-        "Observation": "",
-        "PENALITES PTV": "",
-        "Chute": "Note 0 sur le PTV et arrêt du concurrent",
-        "Erreur de parcours non rectifiée": "Note 0 sur le PTV"
-      }
-  }
+    }
+  },
+  "Total": "C + A + P",
+  "Chute": "Note 0 sur le PTV et arrêt du concurrent",
+  "Erreur de parcours non rectifiée": "Note 0 sur le PTV"
 }
