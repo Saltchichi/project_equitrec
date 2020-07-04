@@ -14,10 +14,10 @@
           </td>
         </tr>
 
-        <template v-for="(criteres, parent) in data.notations">
+        <template v-for="(criteres, nomCriteres) in data.notations">
           <tr>
             <td style="color: Green; background-color: yellow;">
-              {{ parent }}
+              {{ nomCriteres }}
             </td>
             <td style="background-color: yellow;"></td>
             <td style="background-color: yellow;"></td>
@@ -25,19 +25,30 @@
           <tr v-for="(value, critere) in criteres" :key="value">
             <td>{{ critere }}</td>
             <td>{{ value }}</td>
-            <td><input type="text" class="response_input" /></td>
+            <td
+              v-if="
+                critere == 'Total_C' ||
+                  critere == 'Total_A' ||
+                  critere == 'Total_P'
+              "
+            >
+              <div class="response_div" :id="nomCriteres">0</div>
+            </td>
+            <td v-else>
+              <input
+                type="radio"
+                class="response_radio"
+                :name="nomCriteres"
+                v-on:click="updateResult(value, nomCriteres)"
+              />
+            </td>
           </tr>
         </template>
         <tr>
           <td style="background-color: grey;"></td>
           <td style="background-color: grey;">{{ data.Total }}</td>
           <td style="background-color: grey;">
-            <input
-              type="number"
-              class="response_input"
-              style="background-color: grey;"
-              v-model="cap"
-            />
+            <div class="response_div">{{ cap }}</div>
           </td>
         </tr>
         <tr>
@@ -57,10 +68,12 @@
           <td>{{ data.Chute }}</td>
           <td>
             <input
+              class="response_checkbox"
               type="checkbox"
               v-model="chute"
               true-value="true"
               false-value="false"
+              v-on:change="chuteOrErreur"
             />
           </td>
         </tr>
@@ -69,10 +82,12 @@
           <td>{{ data.Erreur_de_parcours }}</td>
           <td>
             <input
+              class="response_checkbox"
               type="checkbox"
               v-model="erreur"
               true-value="true"
               false-value="false"
+              v-on:change="chuteOrErreur"
             />
           </td>
         </tr>
@@ -80,9 +95,14 @@
 
       <br />
       <button class="btn btn-primary" style="margin-left: 40%;" type="submit">
-        Enregistrer
+        Envoyer
       </button>
       <br /><br />
+    </form>
+    <form v-on:submit.prevent="getResultLocal">
+      <button class="btn btn-primary" style="margin-left: 40%;" type="submit">
+        get
+      </button>
     </form>
   </section>
 </template>
@@ -92,50 +112,68 @@ import router from "../router";
 import EventBus from "./EventBus.vue";
 import Epreuve from "./Epreuve.vue";
 import axios from "axios";
-import data from "../json_files/branches_basses_en_main.json";
 
 export default {
   name: "Notation",
   data: function() {
     return {
       nom: "",
-      data: data,
+      data: "",
       dossard: "",
-      cap: "",
+      cap: 0,
       observation: "",
-      chute: false,
-      erreur: false,
+      chute: "false",
+      erreur: "false",
+      bddlocal: {},
     };
   },
   components: {
     Epreuve: Epreuve,
   },
+  mounted: function() {
+    this.bddlocal = this.$parent.$parent;
+    import(
+      "../json_files/" + localStorage.getItem("epreuveName") + ".json"
+    ).then(epreuveData => {
+      this.data = epreuveData;
+    });
+  },
   methods: {
-    checkConnection() {
-      var Connection = navigator.connection;
-      var networkState = navigator.connection.type;
-      var states = {};
-      states[Connection.UNKNOWN] = "Unknown connection";
-      states[Connection.ETHERNET] = "Ethernet connection";
-      states[Connection.WIFI] = "WiFi connection";
-      states[Connection.CELL_2G] = "Cell 2G connection";
-      states[Connection.CELL_3G] = "Cell 3G connection";
-      states[Connection.CELL_4G] = "Cell 4G connection";
-      states[Connection.CELL] = "Cell generic connection";
-      states[Connection.NONE] = "No network connection";
-      alert("Connection type: " + states[networkState]);
-    },
     send() {
       if (this.dossard !== "") {
         if (this.cap !== "") {
-          this.checkConnection();
-          this.setNewResult(
-            this.dossard,
-            this.cap,
-            this.observation,
-            this.chute,
-            this.erreur,
-          );
+          let connexion = this.checkConnection();
+          // let connexion = "wifi";
+          if (
+            connexion == "wifi" ||
+            connexion == "ethernet" ||
+            connexion == "4g" ||
+            connexion == "3g"
+          ) {
+            alert(
+              "Vous avez de la connexion: " +
+                connexion +
+                ". Vos données vont être envoyer",
+            );
+            this.setResult(
+              this.dossard,
+              this.cap,
+              this.observation,
+              this.chute,
+              this.erreur,
+            );
+          } else {
+            alert(
+              "Vous n'avez pas deconnexion. Vos données vont être stocké en local",
+            );
+            this.setResultLocal(
+              this.dossard,
+              this.cap,
+              this.observation,
+              this.chute,
+              this.erreur,
+            );
+          }
         } else {
           alert("Problème: Résultat final");
         }
@@ -143,9 +181,12 @@ export default {
         alert("Problème: Dossard");
       }
     },
-    setNewResult(dossard, cap, observation, chute, erreur) {
+    checkConnection() {
+      return navigator.connection.type;
+    },
+    setResult(dossard, cap, observation, chute, erreur) {
       axios
-        .post("http://192.168.1.37/api_equitrec/resultat", {
+        .post("https://api.alexandremonschein.fr/resultat", {
           cap: cap,
           observation: observation,
           chute: chute,
@@ -154,6 +195,64 @@ export default {
         .then(response => {
           console.log(response);
         });
+    },
+    setResultLocal(dossard, cap, observation, chute, erreur) {
+      this.bddlocal.bddlocale.transaction(function(tx) {
+        if (observation == "") {
+          observation = "RAS";
+        }
+        if (chute == false) {
+          chute = "false";
+        }
+        if (erreur == false) {
+          erreur = "false";
+        }
+        let addResultLocal =
+          "INSERT INTO resultats(resultat_final, observations, chute, erreur_de_parcours) VALUES(" +
+          cap +
+          ", '" +
+          observation +
+          "', '" +
+          chute +
+          "', '" +
+          erreur +
+          "')";
+        // console.log(addResultLocal);
+        tx.executeSql(addResultLocal);
+      });
+    },
+    getResultLocal() {
+      this.bddlocal.bddlocale.transaction(function(tx) {
+        let query = "SELECT * FROM resultats";
+        tx.executeSql(
+          query,
+          [],
+          function(tx, results) {
+            let len = results.rows.length,
+              i;
+            for (i = 0; i < len; i++) {
+              alert("Vous avez " + results.rows[i].length + " résultat(s) stocké en local");
+            }
+          },
+          null,
+        );
+      });
+    },
+    updateResult(val, critere) {
+      document.getElementById(critere).innerHTML = val;
+      this.chuteOrErreur();
+    },
+    chuteOrErreur() {
+      this.calculResult();
+      if (this.chute == "true" || this.erreur == "true") {
+        this.cap = 0;
+      }
+    },
+    calculResult() {
+      this.cap = 0;
+      Object.keys(this.data.notations).forEach(el => {
+        this.cap += parseInt(document.getElementById(el).innerText);
+      });
     },
   },
 };
@@ -170,6 +269,15 @@ export default {
   width: 100%;
   height: 100%;
   border: none;
+}
+.response_radio {
+  margin-left: 40%;
+}
+.response_checkbox {
+  margin-left: 40%;
+}
+.response_div {
+  text-align: center;
 }
 .title {
   display: block;
@@ -189,6 +297,6 @@ table {
 }
 th,
 td {
-  padding: 2px;
+  padding: 6px;
 }
 </style>

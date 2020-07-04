@@ -6,11 +6,13 @@
 </template>
 <script>
 import EventBus from "./EventBus.vue"
+
 export default {
   name: 'NavBar',
   data() {
     return {
       auth: '',
+      user: ''
     }
   },
   mounted() {

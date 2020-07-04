@@ -4,7 +4,7 @@
       <ul v-if="competitions.id === epreuves[0].competitionId">
         <div v-for="epreuve in epreuves" :key="epreuve.nom">
           <form v-on:submit.prevent="notation(epreuve.nom)">
-            <button type="submit" class="btn btn-primary btn-lg btn-block">{{ epreuve.nom }}</button>
+            <button type="submit" class="btn btn-primary btn-lg" style="width: 90%">{{ epreuve.nom }}</button>
             <br />
           </form>
         </div>
@@ -59,8 +59,12 @@ export default {
     Competition: Competition,
     Notation: Notation,
   },
+  mounted: function() {
+    this.bddlocal = this.$parent.$parent;
+  },
   methods: {
     notation(nom) {
+      localStorage.setItem("epreuveName", nom);
       router.push({ name: "Notation" });
     },
   },
