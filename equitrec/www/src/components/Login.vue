@@ -34,20 +34,15 @@ export default {
       email: "",
       password: "",
       utilisateurBDD: "",
-      bddlocal: {},
     };
   },
   components: {
     Competition: Competition,
   },
-  mounted: function() {
-    this.bddlocal = this.$parent.$parent;
-  },
   methods: {
     login() {
       if (this.email != "" && this.password != "") {
-        // var connexion = navigator.connection.type;
-        var connexion = "wifi";
+        var connexion = navigator.connection.type;
         if (
           connexion == "wifi" ||
           connexion == "ethernet" ||
@@ -72,7 +67,6 @@ export default {
         })
         .then(response => {
           if (response.data == true) {
-            localStorage.clear();
             localStorage.setItem("currentUser", email);
             router.push({ name: "Competition" });
             this.emitMethod();

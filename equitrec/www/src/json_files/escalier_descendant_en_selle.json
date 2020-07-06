@@ -2,26 +2,26 @@
   "epreuve_nom": "Epreuves amateur 1 et Amateur Elite",
   "notations": {
     "Contrat": {
-      "realise": 7,
+      "Réalisé": 7,
       "1 faute": 4,
       "2 fautes": 1,
       "3 fautes": 0,
-      "Total P": ""
+      "Total_C": ""
     },
-    "Style": {
+    "Styles": {
       "Tres bon": "+3",
-      "Bon": "2",
-      "Moyen": "1",
+      "Bon": "+2",
+      "Moyen": "+1",
       "Passable": "0",
       "Mediocre": "-1",
       "Mauvais": "-2",
-      "Total S ": ""
+      "Total_S": ""
     },
     "Penalites": {
-      "Pied sorti du couloir": -10,
-      "Brutalité": -10,
-      "Franchissement dangereux": -10,
-      "Total P": ""
+      "Pied sorti du couloir": "-10",
+      "Brutalité": "-10",
+      "Franchissement dangereux": "-10",
+      "Total_P": ""
     }
   },
   "Total": "C + S + P",

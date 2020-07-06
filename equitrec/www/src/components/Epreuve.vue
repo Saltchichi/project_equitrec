@@ -1,14 +1,18 @@
 <template>
   <section>
-    <div class="container" style="margin-top: 50px;">
-      <ul v-if="competitions.id === epreuves[0].competitionId">
-        <div v-for="epreuve in epreuves" :key="epreuve.nom">
-          <form v-on:submit.prevent="notation(epreuve.nom)">
-            <button type="submit" class="btn btn-primary btn-lg" style="width: 90%">{{ epreuve.nom }}</button>
-            <br />
-          </form>
-        </div>
-      </ul>
+    <div class="container" style="margin-top: 50px; padding-left: 10%;">
+      <div v-for="epreuve in epreuves" :key="epreuve.nom">
+        <form v-on:submit.prevent="notation(epreuve)">
+          <button
+            type="submit"
+            class="btn btn-primary btn-lg"
+            style="width: 93.5%"
+          >
+            {{ epreuve }}
+          </button>
+          <br />
+        </form>
+      </div>
     </div>
   </section>
 </template>
@@ -23,49 +27,31 @@ export default {
   name: "Epreuve",
   data() {
     return {
-      epreuves: [
-        {
-          id: 1,
-          nom: "branches_basses_en_main",
-          categorieId: 1,
-          competitionId: 1,
-          competiteurId: 1,
-        },
-        {
-          id: 2,
-          nom: "escalier_descendant_en_selle",
-          categorieId: 1,
-          competitionId: 1,
-          competiteurId: 1,
-        },
-        {
-          id: 3,
-          nom: "slalom_a_une_main",
-          categorieId: 1,
-          competitionId: 1,
-          competiteurId: 1,
-        },
-      ],
-
-      competitions: {
-        id: 1,
-        nom: "test",
-        userId: 1,
-      },
+      epreuves: [],
     };
   },
-
   components: {
     Competition: Competition,
     Notation: Notation,
   },
   mounted: function() {
-    this.bddlocal = this.$parent.$parent;
+    this.getEpreuveByCompetitionName()
   },
   methods: {
     notation(nom) {
       localStorage.setItem("epreuveName", nom);
       router.push({ name: "Notation" });
+    },
+    getEpreuveByCompetitionName() {
+      let currentCompetition = localStorage.getItem("currentCompetition");
+      let competitionBDD = JSON.parse(localStorage.getItem("competitionBDD"));
+      let epreuveBDD = JSON.parse(localStorage.getItem("epreuveBDD"));
+      let competition = competitionBDD.find(el => (el = currentCompetition));
+      for (let i = 0; i < epreuveBDD.length; i++) {
+        if (epreuveBDD[i].competitionID == competition.competitionID) {
+          this.epreuves.push(epreuveBDD[i].epreuve_nom);
+        }
+      }
     },
   },
 };

@@ -27,7 +27,8 @@
             <td>{{ value }}</td>
             <td
               v-if="
-                critere == 'Total_C' ||
+                critere == 'Total_S' ||
+                  critere == 'Total_C' ||
                   critere == 'Total_A' ||
                   critere == 'Total_P'
               "
@@ -48,7 +49,7 @@
           <td style="background-color: grey;"></td>
           <td style="background-color: grey;">{{ data.Total }}</td>
           <td style="background-color: grey;">
-            <div class="response_div">{{ cap }}</div>
+            <div class="response_div2">{{ cap }}</div>
           </td>
         </tr>
         <tr>
@@ -97,12 +98,10 @@
       <button class="btn btn-primary" style="margin-left: 40%;" type="submit">
         Envoyer
       </button>
-      <br /><br />
-    </form>
-    <form v-on:submit.prevent="getResultLocal">
-      <button class="btn btn-primary" style="margin-left: 40%;" type="submit">
-        get
+      <button class="btn btn-primary" type="button" v-on:click="reset">
+        Reset
       </button>
+      <br /><br />
     </form>
   </section>
 </template>
@@ -124,65 +123,60 @@ export default {
       observation: "",
       chute: "false",
       erreur: "false",
-      bddlocal: {},
+      j: "",
+      localResults: [],
     };
   },
   components: {
     Epreuve: Epreuve,
   },
   mounted: function() {
-    this.bddlocal = this.$parent.$parent;
     import(
       "../json_files/" + localStorage.getItem("epreuveName") + ".json"
     ).then(epreuveData => {
       this.data = epreuveData;
     });
+    document.addEventListener("online", this.getResultLocal, false);
+    this.j = localStorage.getItem("j");
   },
   methods: {
     send() {
       if (this.dossard !== "") {
-        if (this.cap !== "") {
-          let connexion = this.checkConnection();
-          // let connexion = "wifi";
-          if (
-            connexion == "wifi" ||
-            connexion == "ethernet" ||
-            connexion == "4g" ||
-            connexion == "3g"
-          ) {
-            alert(
-              "Vous avez de la connexion: " +
-                connexion +
-                ". Vos données vont être envoyer",
-            );
-            this.setResult(
-              this.dossard,
-              this.cap,
-              this.observation,
-              this.chute,
-              this.erreur,
-            );
-          } else {
-            alert(
-              "Vous n'avez pas deconnexion. Vos données vont être stocké en local",
-            );
-            this.setResultLocal(
-              this.dossard,
-              this.cap,
-              this.observation,
-              this.chute,
-              this.erreur,
-            );
-          }
+        let connexion = this.checkConnection();
+        if (
+          connexion == "wifi" ||
+          connexion == "ethernet" ||
+          connexion == "4g" ||
+          connexion == "3g"
+        ) {
+          this.setResult(
+            this.dossard,
+            this.cap,
+            this.observation,
+            this.chute,
+            this.erreur,
+          );
         } else {
-          alert("Problème: Résultat final");
+          alert(
+            "Vous n'avez pas de connexion. Vos données vont être stocké en local",
+          );
+          this.setResultLocal(
+            this.dossard,
+            this.cap,
+            this.observation,
+            this.chute,
+            this.erreur,
+          );
         }
+        this.dossard = "";
+        this.cap = 0;
+        this.observation = "";
+        this.chute = "false";
+        this.erreur = "false";
+        this.reset();
       } else {
         alert("Problème: Dossard");
       }
-    },
-    checkConnection() {
-      return navigator.connection.type;
     },
     setResult(dossard, cap, observation, chute, erreur) {
       axios
@@ -194,53 +188,119 @@ export default {
         })
         .then(response => {
           console.log(response);
+          let competiteurBDD = JSON.parse(
+            localStorage.getItem("competiteurBDD"),
+          );
+          let epreuveBDD = JSON.parse(localStorage.getItem("epreuveBDD"));
+          let competiteur = competiteurBDD.find(el => dossard);
+
+          let epreuve = epreuveBDD.find(
+            el => (el = localStorage.getItem("epreuveName")),
+          );
+          axios
+            .post("https://api.alexandremonschein.fr/participer", {
+              competiteurID: competiteur.competiteurID,
+              epreuveID: epreuve.epreuve_ID,
+            })
+            .then(response2 => {
+              console.log(response2);
+              alert("Données envoyées avec succès");
+            })
+            .catch(err2 => {
+              alert("err2: " + err2);
+              alert(
+                "Vous n'avez toujours pas la connexion necessaire pour envoyer les données stockées en local sur la BDD du site",
+              );
+            });
+        })
+        .catch(err => {
+          alert("err: " + err);
+          alert(
+            "Vous n'avez toujours pas la connexion necessaire pour envoyer les données stockées en local sur la BDD du site",
+          );
         });
     },
     setResultLocal(dossard, cap, observation, chute, erreur) {
-      this.bddlocal.bddlocale.transaction(function(tx) {
-        if (observation == "") {
-          observation = "RAS";
-        }
-        if (chute == false) {
-          chute = "false";
-        }
-        if (erreur == false) {
-          erreur = "false";
-        }
-        let addResultLocal =
-          "INSERT INTO resultats(resultat_final, observations, chute, erreur_de_parcours) VALUES(" +
-          cap +
-          ", '" +
-          observation +
-          "', '" +
-          chute +
-          "', '" +
-          erreur +
-          "')";
-        // console.log(addResultLocal);
-        tx.executeSql(addResultLocal);
-      });
+      if (observation == "") {
+        observation = "RAS";
+      }
+      if (chute == false) {
+        chute = "false";
+      }
+      if (erreur == false) {
+        erreur = "false";
+      }
+      let result =
+        cap + "," + observation + "," + chute + "," + erreur + "," + dossard;
+      localStorage.setItem("resultat_" + this.j, result);
+      this.j++;
+      localStorage.setItem("j", this.j);
     },
     getResultLocal() {
-      this.bddlocal.bddlocale.transaction(function(tx) {
-        let query = "SELECT * FROM resultats";
-        tx.executeSql(
-          query,
-          [],
-          function(tx, results) {
-            let len = results.rows.length,
-              i;
-            for (i = 0; i < len; i++) {
-              alert("Vous avez " + results.rows[i].length + " résultat(s) stocké en local");
-            }
-          },
-          null,
-        );
-      });
+      let splitted = [];
+      for (let i = 0; i < this.j; i++) {
+        this.localResults.push(localStorage.getItem("resultat_" + i));
+        let split = this.localResults[i].split(",");
+        splitted.push(split);
+        if (splitted.length !== 0) {
+          axios
+            .post("https://api.alexandremonschein.fr/resultat", {
+              cap: splitted[i][0],
+              observation: splitted[i][1],
+              chute: splitted[i][2],
+              erreur: splitted[i][3],
+            })
+            .then(response => {
+              console.log(response);
+              // localStorage.removeItem("resultat_" + i);
+              let competiteurBDD = JSON.parse(
+                localStorage.getItem("competiteurBDD"),
+              );
+              let epreuveBDD = JSON.parse(localStorage.getItem("epreuveBDD"));
+              let competiteur = competiteurBDD.find(
+                el => (el = splitted[i][4]),
+              );
+
+              let epreuve = epreuveBDD.find(
+                el => (el = localStorage.getItem("epreuveName")),
+              );
+              axios
+                .post("https://api.alexandremonschein.fr/participer", {
+                  competiteurID: competiteur.competiteurID,
+                  epreuveID: epreuve.epreuve_ID,
+                })
+                .then(response2 => {
+                  console.log(response2);
+                  localStorage.removeItem("resultat_" + i);
+                })
+                .catch(err2 => {
+                  alert("err2: " + err2);
+                });
+            })
+            .catch(err => {
+              alert("err: " + err);
+            });
+        }
+      }
+      this.localResults = [];
+      this.j = 0;
+      localStorage.setItem("j", this.j);
     },
     updateResult(val, critere) {
       document.getElementById(critere).innerHTML = val;
       this.chuteOrErreur();
+    },
+    reset() {
+      var allRadios = document.getElementsByClassName("response_radio");
+      var allDiv = document.getElementsByClassName("response_div");
+      var x = 0;
+      var y = 0;
+      for (x = 0; x < allRadios.length; x++) {
+        allRadios[x].checked = false;
+      }
+      for (y = 0; y < allDiv.length; y++) {
+        allDiv[y].innerHTML = "0";
+      }
     },
     chuteOrErreur() {
       this.calculResult();
@@ -251,8 +311,11 @@ export default {
     calculResult() {
       this.cap = 0;
       Object.keys(this.data.notations).forEach(el => {
-        this.cap += parseInt(document.getElementById(el).innerText);
+        this.cap += parseInt(document.getElementById(el).innerHTML);
       });
+    },
+    checkConnection() {
+      return navigator.connection.type;
     },
   },
 };
@@ -271,12 +334,15 @@ export default {
   border: none;
 }
 .response_radio {
-  margin-left: 40%;
+  margin-left: 44%;
 }
 .response_checkbox {
-  margin-left: 40%;
+  margin-left: 44%;
 }
 .response_div {
+  text-align: center;
+}
+.response_div2 {
   text-align: center;
 }
 .title {

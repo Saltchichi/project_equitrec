@@ -6,20 +6,20 @@
       "1 faute": 4,
       "2 fautes": 1,
       "3 fautes": 0,
-      "Total C": ""
+      "Total_C": ""
     },
     "Allures": {
       "Galot": "+3",
-      "Trot": -2,
-      "Total A": ""
+      "Trot": "-2",
+      "Total_A": ""
     },
-    "Pénalités": {
+    "Penalites": {
       "Porte manqué": "-10",
       "Pied sorti du couloir": "-10",
       "Reprise des renes 2 mains": "-10",
       "Brutalité": "-10",
       "Franchissement dangereux": "-10",
-      "Total P": ""
+      "Total_P": ""
     }
   },
   "Total": "C + A + P",
