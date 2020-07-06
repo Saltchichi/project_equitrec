@@ -22,6 +22,10 @@
     <allow-intent href="*" />
     <platform name="android">
         <allow-intent href="market:*" />
+        <icon src="static/equitrec.png" density="ldpi" />
+        <icon src="static/equitrec.png" density="mdpi" />
+        <icon src="static/equitrec.png" density="hdpi" />
+        <icon src="static/equitrec.png" density="xhdpi" />
     </platform>
     <platform name="ios">
         <allow-intent href="itms:*" />
